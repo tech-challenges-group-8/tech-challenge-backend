@@ -1,9 +1,9 @@
 const Account = require("../../models/Account")
 
 const getAccount = async ({
-  acccountFilter, repository
+  filter, repository
 }) => {
-  const result = await repository.get(acccountFilter)
+  const result = await repository.get(filter)
   return result?.map(user => new Account(user))
 }
 

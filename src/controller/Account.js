@@ -25,7 +25,7 @@ class AccountController {
 
     try {
       const userId =   req.user.id
-      const account = await getAccount({ repository: accountRepository,  userId })
+      const account = await getAccount({ repository: accountRepository,  filter: { userId } })
       const transactions = await getTransaction({ filter: { accountId: account[0].id }, repository: transactionRepository })
       const cards = await getCard({ filter: { accountId: account[0].id }, repository: cardRepository })
     
