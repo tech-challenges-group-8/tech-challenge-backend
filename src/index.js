@@ -29,8 +29,8 @@ app.use((req, res, next) => {
 app.use(routes)
 
 connectDB().then(() => {
-    app.listen(3000, () => {
-        console.log('Servidor rodando na porta 3000');
+    app.listen(process.env.PORT || 5000, () => {
+        console.log('Servidor rodando na porta 5000');
     });
 });
 
