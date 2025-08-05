@@ -38,6 +38,8 @@ router.get('/account', accountController.find.bind(accountController))
  *                 type: number
  *               type:
  *                 type: string
+ *               description:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Transação criada com sucesso
@@ -59,6 +61,12 @@ router.post('/account/transaction', accountController.createTransaction.bind(acc
  *         description: ID da conta
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: description
+ *         required: false
+ *         schema:
+ *           type: string
+ *           description: Filtro por descrição (parcial, ignorando maiúsculas/minúsculas)
  *     responses:
  *       200:
  *         description: Extrato encontrado
@@ -66,5 +74,72 @@ router.post('/account/transaction', accountController.createTransaction.bind(acc
  *         description: Token invalido
  */
 router.get('/account/:accountId/statement', accountController.getStatment.bind(accountController))
+
+/**
+ * @swagger
+ * /account/{accountId}/transaction/{transactionId}:
+ *   delete:
+ *     summary: deleta uma transação da conta
+ *     tags: [Transações]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: accountId
+ *         required: true
+ *         description: ID da conta
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: transactionId
+ *         required: true
+ *         description: ID da transaction
+ *         schema:
+ *           type: string
+ *     responses:
+ *       401:
+ *         description: Token invalido
+ */
+router.delete('/account/:accountId/transaction/:transactionId', accountController.deleteTransactionById.bind(accountController));
+
+/**
+ * @swagger
+ * /account/{accountId}/transaction/{transactionId}:
+ *   put:
+ *     summary: atualiza uma transação da conta
+ *     tags: [Transações]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: accountId
+ *         required: true
+ *         description: ID da conta
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: transactionId
+ *         required: true
+ *         description: ID da transaction
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               value:
+ *                 type: number
+ *               type:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *     responses:
+ *       401:
+ *         description: Token invalido
+ */
+router.put('/account/:accountId/transaction/:transactionId', accountController.updateTransactionById.bind(accountController));
 
 module.exports = router
