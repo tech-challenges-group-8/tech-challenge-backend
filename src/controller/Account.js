@@ -13,6 +13,7 @@ class AccountController {
       salvarUsuario: require('../feature/User/salvarUsuario'),
       saveAccount: require('../feature/Account/saveAccount'),
       getUser: require('../feature/User/getUser'),
+      getUserById: require('../feature/User/getUserById'),
       getAccount: require('../feature/Account/getAccount'),
       saveTransaction: require('../feature/Transaction/saveTransaction'),
       getTransaction: require('../feature/Transaction/getTransaction'),
@@ -21,28 +22,38 @@ class AccountController {
   }
 
   async find(req, res) {
-    const { accountRepository, getAccount, getCard, getTransaction, transactionRepository, cardRepository } = this.di
+    const { accountRepository, userRepository, getAccount, getCard, getTransaction, getUserById, transactionRepository, cardRepository } = this.di
 
     try {
-      const userId =   req.user.id
-      const account = await getAccount({ repository: accountRepository,  filter: { userId } })
-      const transactions = await getTransaction({ filter: { accountId: account[0].id }, repository: transactionRepository })
-      const cards = await getCard({ filter: { accountId: account[0].id }, repository: cardRepository })
-    
+      const userId = req.user?.id;
+
+      const user = await getUserById({ id: userId, repository: userRepository });
+      if (!user) {
+        return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+      const { username } = user;
+
+      const account = await getAccount({ repository: accountRepository, filter: { userId } });
+      const transactions = await getTransaction({ filter: { accountId: account[0].id }, repository: transactionRepository });
+      const cards = await getCard({ filter: { accountId: account[0].id }, repository: cardRepository });
+
       res.status(200).json({
-        message: 'Conta encontrada carregado com sucesso',
+        message: 'Conta encontrada carregada com sucesso',
         result: {
           account,
           transactions,
           cards,
+          name: username
         }
-      })
+      });
     } catch (error) {
+      console.error('Erro:', error);
       res.status(500).json({
         message: 'Erro no servidor'
-      })
+      });
     }
-    
+
+
   }
 
   async createTransaction(req, res) {

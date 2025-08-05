@@ -7,7 +7,7 @@ Rodando o projeto:
     docker build -t tech-challenge-backend .
 
     # Executar o container
-    docker run -p 5000:5000 tech-challenge
+    docker run -p 5000:5000 tech-challenge-backend
 
 - Sem docker
 
