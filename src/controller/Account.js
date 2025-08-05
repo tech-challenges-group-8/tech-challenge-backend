@@ -63,17 +63,25 @@ class AccountController {
 
   async getStatment(req, res) {
     const { getTransaction, transactionRepository } = this.di
-
     const { accountId } = req.params
+    const { description } = req.query 
 
-    const transactions = await getTransaction({ filter: { accountId } ,  repository: transactionRepository})
-    res.status(201).json({
-      message: 'Transação criada com sucesso',
+    const filter = { accountId }
+
+    if (description) {
+      filter.description = { $regex: description, $options: 'i' } // 'i' para case-insensitive
+    }
+
+    const transactions = await getTransaction({ filter, repository: transactionRepository })
+
+    res.status(200).json({
+      message: 'Extrato obtido com sucesso',
       result: {
         transactions
       }
     })
   }
+
 
   async deleteTransactionById(req, res) {
     try {

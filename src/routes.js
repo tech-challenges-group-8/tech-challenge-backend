@@ -61,6 +61,12 @@ router.post('/account/transaction', accountController.createTransaction.bind(acc
  *         description: ID da conta
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: description
+ *         required: false
+ *         schema:
+ *           type: string
+ *           description: Filtro por descrição (parcial, ignorando maiúsculas/minúsculas)
  *     responses:
  *       200:
  *         description: Extrato encontrado
@@ -74,7 +80,7 @@ router.get('/account/:accountId/statement', accountController.getStatment.bind(a
  * /account/{accountId}/transaction/{transactionId}:
  *   delete:
  *     summary: deleta uma transação da conta
- *     tags: [Extratos]
+ *     tags: [Transações]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -101,7 +107,7 @@ router.delete('/account/:accountId/transaction/:transactionId', accountControlle
  * /account/{accountId}/transaction/{transactionId}:
  *   put:
  *     summary: atualiza uma transação da conta
- *     tags: [Extratos]
+ *     tags: [Transações]
  *     security:
  *       - bearerAuth: []
  *     parameters:
