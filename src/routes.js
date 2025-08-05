@@ -25,6 +25,19 @@ router.get('/account', accountController.find.bind(accountController))
  *     tags: [Transações]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               accountId:
+ *                 type: string
+ *               value:
+ *                 type: number
+ *               type:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Transação criada com sucesso
