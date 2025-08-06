@@ -67,6 +67,38 @@ router.post('/account/transaction', accountController.createTransaction.bind(acc
  *         schema:
  *           type: string
  *           description: Filtro por descrição (parcial, ignorando maiúsculas/minúsculas)
+ *       - in: query
+ *         name: dataInicial
+ *         required: false
+ *         description: Data inicial do período
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: dataFinal
+ *         required: false
+ *         description: Data final do período
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: valorMinimo
+ *         required: false
+ *         description: Valor mínimo da transação
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: valorMaximo
+ *         required: false
+ *         description: Valor máximo da transação
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: tipo
+ *         required: false
+ *         description: Tipo da transação
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Extrato encontrado
